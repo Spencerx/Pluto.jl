@@ -1,6 +1,7 @@
 import { html, Component, useRef, useLayoutEffect, useContext } from "../imports/Preact.js"
 
 import DOMPurify from "../imports/DOMPurify.js"
+import { ansi_to_html } from "../imports/AnsiUp.js"
 
 import { ErrorMessage, ParseError } from "./ErrorMessage.js"
 import { TreeView, TableView, DivElement } from "./TreeView.js"
@@ -27,6 +28,7 @@ import hljs from "../imports/highlightjs.js"
 import { julia_mixed } from "./CellInput/mixedParsers.js"
 import { julia } from "../imports/CodemirrorPlutoSetup.js"
 import { SafePreviewSanitizeMessage } from "./SafePreviewUI.js"
+import lodashLibrary from "../imports/lodash.js"
 
 const prettyAssignee = (assignee) =>
     assignee && assignee.startsWith("const ") ? html`<span style="color: var(--cm-color-keyword)">const</span> ${assignee.slice(6)}` : assignee
@@ -192,9 +194,7 @@ export const OutputBody = ({ mime, body, cell_id, persist_js_state = false, last
             break
         case "text/plain":
             if (body) {
-                return html`<div>
-                    <pre class="no-block"><code>${body}</code></pre>
-                </div>`
+                return html`<div><${ANSITextOutput} body=${body} /></div>`
             } else {
                 return html`<div></div>`
             }
@@ -445,6 +445,7 @@ const execute_scripttags = async ({ root_node, script_nodes, previous_results_ma
                                       }),
 
                                 ...observablehq_for_cells,
+                                _: lodashLibrary,
                             },
                             code,
                         })
@@ -723,4 +724,23 @@ export const generateCopyCodeButton = (/** @type {HTMLElement?} */ pre) => {
 
     // Append copy button to the code block element
     pre.prepend(button)
+}
+
+export const ANSITextOutput = ({ body }) => {
+    const has_ansi = /\x1b\[\d+m/.test(body)
+
+    if (has_ansi) {
+        return html`<${ANSIUpContents} body=${body} />`
+    } else {
+        return html`<pre class="no-block"><code>${body}</code></pre>`
+    }
+}
+
+const ANSIUpContents = ({ body }) => {
+    const node_ref = useRef(/** @type {HTMLElement?} */ (null))
+    useLayoutEffect(() => {
+        if (!node_ref.current) return
+        node_ref.current.innerHTML = ansi_to_html(body)
+    }, [body])
+    return html`<pre class="no-block"><code ref=${node_ref}></code></pre>`
 }
