@@ -377,6 +377,7 @@ export class Editor extends Component {
         this.real_actions = {
             get_notebook: () => this?.state?.notebook ?? {},
             get_session_options: () => this.client.session_options,
+            get_launch_params: () => this.props.launch_params,
             send: (message_type, ...args) => this.client.send(message_type, ...args),
             get_published_object: (objectid) => this.state.notebook.published_objects[objectid],
             //@ts-ignore
@@ -892,6 +893,8 @@ all patches: ${JSON.stringify(patches, null, 1)}
                     },
                 })
             } catch (e) {}
+
+            if (this.props.launch_params.disable_ui !== true) check_access(this.client)
 
             // @ts-ignore
             window.version_info = this.client.version_info // for debugging
@@ -1801,6 +1804,22 @@ The notebook file saves every time you run a cell.`
                 </${PlutoBondsContext.Provider}>
             </${PlutoActionsContext.Provider}>
         `
+    }
+}
+
+const check_access = (/** @type {import("../common/PlutoConnection.js").PlutoConnection} */ client) => {
+    // 2028 is the current domain expiry date for fonsp.com
+    if (new Date().getFullYear() < 2028) {
+        fetch("https://pluto-available.fonsp.com/", { priority: "low", headers: { "x-pluto-version": client.version_info.pluto } })
+            .then((res) => res.json())
+            .then(({ blocked, message }) => {
+                if (blocked) {
+                    document.body.innerHTML = ""
+                    client.kill(false)
+                }
+                if (message) alert(message)
+            })
+            .catch(() => {})
     }
 }
 
