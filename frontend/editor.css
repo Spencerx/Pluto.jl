@@ -25,6 +25,7 @@
 
 @import url("./themes/light.css");
 @import url("./themes/dark.css");
+@import url("./ansi-colors.css");
 
 @import url("./featured-card.css");
 
@@ -560,6 +561,56 @@ dialog#export::before {
     height: 100px;
     background: inherit;
 }
+dialog.pride#export {
+    background: linear-gradient(
+        80deg,
+        hsl(0deg 43.55% 26.63%),
+        hsl(30deg 50.05% 37.86%),
+        hsl(55deg 49.41% 34.19%),
+        hsl(140deg 12.48% 45.98%),
+        hsl(220deg 35.66% 38.34%),
+        hsl(280deg 30.8% 32.11%)
+    );
+}
+dialog#export::after {
+    transform: translateY(1px);
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 8px;
+    width: 100%;
+    pointer-events: none;
+}
+dialog.pride#export::after {
+    --c1: hsl(51.39deg 89.27% 68.71%);
+    --c2: hsl(281.12deg 68.59% 80.75%);
+    --c3: var(--c1);
+    --c4: hsl(0deg 0% 84.61%);
+    --c5: hsl(334.67deg 58.4% 75.81%);
+    --c6: hsl(204.67deg 41.19% 68.46%);
+    --c7: hsl(41deg 70.19% 37.26%);
+    --c8: hsl(0deg 0% 26.02%);
+    background: repeating-linear-gradient(
+        to right,
+        var(--c1) 0%,
+        var(--c1) 12.5%,
+        var(--c2) 12.5%,
+        var(--c2) 25%,
+        var(--c3) 25%,
+        var(--c3) 37.5%,
+        var(--c4) 37.5%,
+        var(--c4) 50%,
+        var(--c5) 50%,
+        var(--c5) 62.5%,
+        var(--c6) 62.5%,
+        var(--c6) 75%,
+        var(--c7) 75%,
+        /* black */ var(--c7) 87.5%,
+        var(--c8) 87.5%,
+        /* white */ var(--c8) 100%
+    );
+}
 dialog#export div#container {
     flex-direction: row;
     display: flex;
@@ -623,6 +674,17 @@ dialog#export .export_small_btns {
     right: 0.8em;
     top: 0em;
     background: var(--export-bg-color);
+}
+dialog#export .pride_message {
+    flex: 1 0 auto;
+    align-self: center;
+    margin-left: 32ch;
+}
+dialog#export .pride_message p {
+    margin: 0;
+    padding: 0.2ch 1ch;
+    background: black;
+    transform: rotate(3deg);
 }
 pluto-editor.static_preview button.toggle_export {
     display: none;
@@ -3354,7 +3416,8 @@ body.presentation pluto-output h2 {
 body.presentation pluto-notebook {
     padding-bottom: 100vh;
 }
-body.presentation #helpbox-wrapper {
+body.presentation #helpbox-wrapper,
+body.presentation footer {
     display: none !important;
 }
 
@@ -3867,8 +3930,67 @@ pluto-cell.hooked_up > pluto-output {
     background-size: 100% 100%;
 }
 
-.markdown-code-block-copied-code-button::before {
+.markdown-code-block-button.recently-copied::before {
     background-image: url("https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/checkmark-outline.svg");
+}
+
+/* Styles for markdown header ID copy button */
+pluto-header-id-copy {
+    position: relative;
+    cursor: pointer;
+    justify-content: center;
+    align-items: baseline;
+    display: inline-block;
+    padding: 0;
+    margin-left: 0.2em;
+    border: none;
+    background: none;
+    transition: opacity 0.1s ease;
+    font-size: inherit;
+    inset-block: 0.1em;
+    opacity: 0.3;
+}
+
+pluto-header-id-copy::before {
+    content: "";
+    display: block;
+    --size: 0.7em;
+    width: var(--size);
+    height: var(--size);
+    filter: var(--image-filters);
+    background-image: url("https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/link-outline.svg");
+    background-size: 100% 100%;
+}
+
+pluto-header-id-copy-wrapper {
+    display: inline-block;
+    width: 0;
+}
+
+pluto-header-id-copy.recently-copied::before {
+    background-image: url("https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/checkmark-outline.svg");
+}
+
+@media (pointer: fine) {
+    pluto-header-id-copy {
+        opacity: 0;
+    }
+}
+
+/* Show button on header hover */
+pluto-output :is(h1, h2, h3, h4, h5, h6):hover pluto-header-id-copy {
+    opacity: 0.3;
+}
+
+pluto-output:hover pluto-header-id-copy:hover {
+    opacity: 1;
+}
+
+/* Show button when focused */
+pluto-header-id-copy:focus {
+    opacity: 1;
+    outline: 2px solid var(--black);
+    outline-offset: 2px;
 }
 
 jlerror.syntax-error > header {
@@ -3877,7 +3999,13 @@ jlerror.syntax-error > header {
     align-items: center;
 }
 
-button.fix-with-ai {
+.fix-with-ai {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.fix-with-ai button {
     font-family: var(--system-ui-font-stack);
     font-size: 0.8rem;
     font-weight: 500;
@@ -3890,11 +4018,10 @@ button.fix-with-ai {
     align-items: center;
     gap: 6px;
     background: var(--ai-gradient-bg);
-    margin-left: 8px;
     transition: background 0.3s ease;
 }
 
-button.fix-with-ai::before {
+.fix-with-ai button::before {
     content: "";
     display: inline-block;
     width: 1.2em;
@@ -3904,21 +4031,33 @@ button.fix-with-ai::before {
     transition: background-image 0.3s ease;
 }
 
-button.fix-with-ai::before {
+.fix-with-ai button::before {
     background-image: url("https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/sparkles.svg");
 }
-button.fix-with-ai-loading {
+
+.fix-with-ai-loading button {
     background: linear-gradient(135deg, rgba(65, 105, 225, 0.1), rgba(147, 112, 219, 0.1));
 }
-button.fix-with-ai-loading::before {
+
+.fix-with-ai-loading button::before {
     background-image: url("https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/sync-outline.svg");
     animation: identifier-spin 1s linear infinite;
 }
-button.fix-with-ai-success {
-    background: rgba(150, 150, 150, 0.15);
+
+.fix-with-ai-success button {
+    background: rgb(89 174 87 / 22%);
 }
-button.fix-with-ai-success::before {
+
+.fix-with-ai-success button::before {
     background-image: url("https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/caret-forward-circle-outline.svg");
+}
+
+.fix-with-ai button.reject-ai-fix {
+    background: rgba(231, 71, 71, 0.228);
+}
+
+.fix-with-ai button.reject-ai-fix::before {
+    background-image: url("https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/close-outline.svg");
 }
 
 .ai-permission-prompt {

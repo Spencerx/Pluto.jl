@@ -5,7 +5,7 @@ import { highlight } from "./CellOutput.js"
 import { PkgTerminalView } from "./PkgTerminalView.js"
 import _ from "../imports/lodash.js"
 import { open_bottom_right_panel } from "./BottomRightPanel.js"
-import AnsiUp from "../imports/AnsiUp.js"
+import { ansi_to_html } from "../imports/AnsiUp.js"
 import { FixWithAIButton } from "./FixWithAIButton.js"
 
 const nbsp = "\u00A0"
@@ -61,6 +61,8 @@ const DocLink = ({ frame }) => {
         >`
 }
 
+const noline = (line) => line == null || line < 1
+
 const StackFrameFilename = ({ frame, cell_id }) => {
     if (ignore_location(frame)) return null
 
@@ -71,17 +73,17 @@ const StackFrameFilename = ({ frame, cell_id }) => {
             internal-file=${frame.file}
             href=${`#${frame_cell_id}`}
             onclick=${(e) => {
-                focus_line(frame_cell_id, line == null ? null : line - 1)
+                focus_line(frame_cell_id, noline(line) ? null : line - 1)
                 e.preventDefault()
             }}
         >
-            ${frame_cell_id == cell_id ? "This\xa0cell" : "Other\xa0cell"}${line == null ? null : html`:${nbsp}<em>line${nbsp}${line}</em>`}
+            ${frame_cell_id == cell_id ? "This\xa0cell" : "Other\xa0cell"}${noline(line) ? null : html`:${nbsp}<em>line${nbsp}${line}</em>`}
         </a>`
     } else {
         const sp = frame.source_package
         const origin = ["Main", "Core", "Base"].includes(sp) ? "julia" : sp
 
-        const file_line = html`<em>${frame.file.replace(/#@#==#.*/, "")}:${frame.line}</em>`
+        const file_line = html`<em>${frame.file.replace(/#@#==#.*/, "")}${noline(frame.line) ? null : `:${frame.line}`}</em>`
 
         const text = sp != null ? html`<strong>${origin}</strong>${nbsp}→${nbsp}${file_line}` : file_line
 
@@ -244,7 +246,10 @@ export const ParseError = ({ cell_id, diagnostics, last_run_timestamp }) => {
                         ({ message, from, to, line }) =>
                             html`<li
                                 class="from_this_notebook from_this_cell important"
-                                onmouseenter=${() => window.dispatchEvent(new CustomEvent("cell_highlight_range", { detail: { cell_id, from, to } }))}
+                                onmouseenter=${() =>
+                                    cell_is_unedited(cell_id)
+                                        ? window.dispatchEvent(new CustomEvent("cell_highlight_range", { detail: { cell_id, from, to } }))
+                                        : null}
                                 onmouseleave=${() =>
                                     window.dispatchEvent(new CustomEvent("cell_highlight_range", { detail: { cell_id, from: null, to: null } }))}
                             >
@@ -259,6 +264,8 @@ export const ParseError = ({ cell_id, diagnostics, last_run_timestamp }) => {
         </jlerror>
     `
 }
+
+const cell_is_unedited = (cell_id) => document.querySelector(`pluto-cell[id="${cell_id}"].code_differs`) == null
 
 const frame_is_important_heuristic = (frame, frame_index, limited_stacktrace, frame_cell_id) => {
     if (frame_cell_id != null) return true
@@ -298,7 +305,7 @@ const AnsiUpLine = (/** @type {{value: string}} */ { value }) => {
 
     useLayoutEffect(() => {
         if (!node_ref.current) return
-        node_ref.current.innerHTML = new AnsiUp().ansi_to_html(value)
+        node_ref.current.innerHTML = ansi_to_html(value)
         did_ansi_up.current = true
     }, [node_ref.current, value])
 
@@ -497,6 +504,11 @@ export const ErrorMessage = ({ msg, stacktrace, plain_error, cell_id }) => {
 
     const first_package = get_first_package(limited_stacktrace)
 
+    const [stacktrace_waiting_to_view, set_stacktrace_waiting_to_view] = useState(true)
+    useEffect(() => {
+        set_stacktrace_waiting_to_view(true)
+    }, [msg, stacktrace, cell_id])
+
     return html`<jlerror>
         <div class="error-header">
             <secret-h1>Error message${first_package == null ? null : ` from ${first_package}`}</secret-h1>
@@ -506,6 +518,10 @@ export const ErrorMessage = ({ msg, stacktrace, plain_error, cell_id }) => {
         <header>${matched_rewriter.display(msg)}</header>
         ${stacktrace.length == 0 || !(matched_rewriter.show_stacktrace?.() ?? true)
             ? null
+            : stacktrace_waiting_to_view
+            ? html`<section class="stacktrace-waiting-to-view">
+                  <button onClick=${() => set_stacktrace_waiting_to_view(false)}>Show stack trace...</button>
+              </section>`
             : html`<section>
                   <div class="stacktrace-header">
                       <secret-h1>Stack trace</secret-h1>
