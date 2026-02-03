@@ -2454,7 +2454,8 @@ a.stdout-info,
 pkg-popup .pkg-buttons > * {
     display: block;
     height: 17px;
-    padding: 4px;
+    font-size: 14px;
+    padding: 3px;
     box-sizing: content-box;
     background: var(--pkg-popup-buttons-bg-color);
     border-radius: 10px;
