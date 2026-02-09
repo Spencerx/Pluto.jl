@@ -103,7 +103,7 @@ describe("scopestate import handling", () => {
     test_easy("import ..Pluto: wow", { definitions: ["wow"] })
     test_easy("let; import Pluto.wow, Dates; end", { definitions: ["wow", "Dates"] })
     test_easy("while false; import Pluto.wow, Dates; end", { definitions: ["wow", "Dates"] })
-    test_easy("try\n using Pluto.wow, Dates\n catch\n end", { definitions: ["wow", "Datees"] })
+    test_easy("try\n using Pluto.wow, Dates\n catch\n end", { definitions: ["wow", "Dates"] })
 })
 
 describe("scopestate kwarg handling", () => {
