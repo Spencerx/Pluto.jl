@@ -240,7 +240,10 @@ const julia_code_completions_to_cm =
                 ...results
                     .filter(
                         ([text, _1, _2, is_from_notebook, completion_type]) =>
-                            (ctx.explicit || completion_type != "path") && (ctx.explicit || completion_type != "method") && !is_already_a_global(text)
+                            (ctx.explicit || completion_type != "path") &&
+                            (ctx.explicit || completion_type != "method") &&
+                            !is_already_a_global(text) &&
+                            completion_type != "keyword"
                     )
                     .map(([text, value_type, is_exported, is_from_notebook, completion_type, _ignored], i) => {
                         // (quick) fix for identifiers that need to be escaped
