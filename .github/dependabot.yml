@@ -5,6 +5,13 @@ updates:
     directory: "/frontend-bundler"
     schedule:
       interval: "weekly"
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
     
   # Monitor frontend-bundler/parcel-resolver-like-a-browser
   - package-ecosystem: "npm"
