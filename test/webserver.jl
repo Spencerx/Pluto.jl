@@ -139,7 +139,7 @@ end
     @test occursin("insertion-spot", export_offline_contents)
     @test occursin(plutoland_regex, export_offline_contents)
     
-    t = tempname(; cleanup=false, suffix=".html")
+    t = tempname(; cleanup=false)
     write(@show(t), export_offline_contents)
     
     
