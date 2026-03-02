@@ -1834,7 +1834,7 @@ ${t("t_key_autosave_description")}`
                     <footer>
                         <div id="info">
                             <${LanguagePicker} />
-                            <a href="https://github.com/JuliaPluto/Pluto.jl/wiki" target="_blank">${t("t_FAQ")}</a>
+                            <a href="https://plutojl.org/en/docs/" target="_blank">${t("t_FAQ")}</a>
                             <span style="flex: 1 1 0%; min-width: 5ch;"></span>
                             <form id="feedback" action="#" method="post">
                                 <label for="opinion">${th("t_how_can_we_improve", {
