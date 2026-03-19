@@ -5,8 +5,8 @@ Start a notebook server using:
 julia> Pluto.run()
 ```
 
-Have a look at the FAQ:
-https://github.com/fonsp/Pluto.jl/wiki
+Have a look at the documentation:
+https://plutojl.org/en/docs/
 """
 module Pluto
 
