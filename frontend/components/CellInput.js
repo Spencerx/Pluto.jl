@@ -114,7 +114,8 @@ const common_style_tags = [
     { tag: tags.logicOperator, color: "var(--cm-color-keyword)" },
     { tag: tags.controlOperator, color: "var(--cm-color-keyword)" },
     { tag: tags.bracket, color: "var(--cm-color-bracket)" },
-    // TODO: tags.self, tags.null
+    { tag: tags.self, color: "var(--cm-color-keyword)" },
+    { tag: tags.null, color: "var(--cm-color-literal)" },
 ]
 
 export const pluto_syntax_colors_julia = HighlightStyle.define(common_style_tags, {
