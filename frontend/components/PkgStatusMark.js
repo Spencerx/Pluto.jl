@@ -168,6 +168,7 @@ export const PkgStatusMark = ({ package_name, pluto_actions, notebook_id, nbpkg 
                       : ""}
         >
             <button
+                aria-label=${t("t_pkg_click_to_open_pkg_popup")}
                 onClick=${(event) => {
                     open_pluto_popup({
                         type: "nbpkg",
@@ -194,6 +195,7 @@ export const PkgActivateMark = ({ package_name }) => {
     return html`
         <pkg-status-mark title=${hint_raw} class="disable_pkg">
             <button
+                aria-label=${t("t_pkg_click_to_open_pkg_popup")}
                 onClick=${(event) => {
                     open_pluto_popup({
                         type: "nbpkg",

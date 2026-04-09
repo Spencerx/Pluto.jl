@@ -278,6 +278,7 @@
     "t_pkg_currently_busy": "Pkg is currently busy with other packages... come back later!",
     "t_pkg_toggle_terminal": "Show/hide Pkg terminal output",
     "t_pkg_go_to_help": "Learn more about packages in Pluto",
+    "t_pkg_click_to_open_pkg_popup": "Click to open package details popup",
     "t_save_all_changes": "Save all changes",
     "t_save_all_changes_description": "Save and run all changed cells",
     "t_file_change_detected": "File change detected, <b>notebook updated</b>",
