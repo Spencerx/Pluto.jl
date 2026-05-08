@@ -851,6 +851,68 @@ dialog.export-html-dialog > div.final button {
     cursor: pointer;
 }
 
+dialog.confirm-before-long-runtime {
+    color: var(--pluto-output-color);
+    border-radius: 10px;
+    max-width: 37ch;
+    background: var(--confirm-runtime-bg);
+    bottom: 0.8rem;
+    left: 0.8rem;
+    top: auto;
+    right: auto;
+    box-shadow: 0 0 20px #00000059;
+}
+
+.confirm-before-long-runtime p.bonus-info {
+    font-size: 0.9em;
+    margin-block-end: 2rem;
+    padding: 1em 1.2em;
+    background: hsl(0deg 0% 12.85%);
+    border-radius: 3px;
+    border-inline-start: 3px solid #636363;
+}
+
+.confirm-before-long-runtime .final button {
+    padding: 0.5em 0.9em;
+    border: 2px solid var(--confirm-runtime-button-border);
+    background: var(--confirm-runtime-button-bg);
+    font-weight: bold;
+}
+
+.confirm-before-long-runtime .final button.final-yes {
+    background: var(--confirm-runtime-yes-bg);
+    color: #000000;
+    border-color: var(--confirm-runtime-yes-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.confirm-before-long-runtime .final button.final-yes:not(:focus-within) kbd {
+    opacity: 0;
+}
+
+.confirm-before-long-runtime .final button kbd {
+    opacity: 0.8;
+    font-size: 0.8em;
+}
+
+.confirm-before-long-runtime .final button.final-yes.will-auto-accept::before {
+    content: "";
+    display: block;
+    background: var(--confirm-runtime-yes-progress);
+    translate: calc(var(--auto-click-progress) * 100% - 100%) 0%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+.confirm-before-long-runtime .final button.final-yes span {
+    translate: 0 0;
+    display: inline-block;
+}
+
 nav#at_the_top h1 {
     color: var(--nav-h1-text-color);
     letter-spacing: 2px;
@@ -4160,49 +4222,56 @@ pluto-cell.hooked_up > pluto-output {
 .pluto-modal {
     font-family: var(--system-ui-font-stack);
     width: min(31rem, 90vw);
-    color: var(--export-color);
-    background: var(--export-bg-color);
     border-radius: 1.8em;
     padding: 1.3em 1.9em;
     border: none;
     box-shadow: 0 0 55px #00000052;
+    position: fixed;
 }
-.pluto-modal h1 {
+
+.pluto-modal-dark {
+    color: var(--export-color);
+    background: var(--export-bg-color);
+}
+.pluto-modal-dark h1 {
     color: white;
     font-weight: 900;
     margin-block-start: 0.3em;
 }
 
-.pluto-modal :is(a) {
+.pluto-modal-dark :is(a) {
     color: var(--export-color);
     text-decoration-color: var(--export-color);
 }
 
 .pluto-modal button {
     cursor: pointer;
-    background-color: var(--frontmatter-button-bg-color);
     border-radius: 0.5em;
-    border: 2px solid var(--frontmatter-button-bg-color);
     font-weight: 500;
 }
 
-.pluto-modal button:hover {
+.pluto-modal-dark button {
+    background-color: var(--frontmatter-button-bg-color);
+    border: 2px solid var(--frontmatter-button-bg-color);
+}
+
+.pluto-modal-dark button:hover {
     border-color: var(--frontmatter-input-border-color);
 }
 
-.pluto-modal input {
+.pluto-modal-dark input {
     background-color: var(--frontmatter-input-bg-color);
     border-radius: 0.5em;
     border: 2px solid var(--frontmatter-input-border-color);
     padding: 0.3em 0.5em;
 }
-.pluto-modal label {
+.pluto-modal-dark label {
     font-weight: 500;
 }
 
 .pluto-modal .final {
     display: flex;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     justify-content: flex-end;
     gap: 0.5em;
 }
