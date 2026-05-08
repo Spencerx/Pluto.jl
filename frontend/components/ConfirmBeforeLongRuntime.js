@@ -11,7 +11,8 @@ import { and, ctrl_or_cmd_name } from "../common/KeyboardShortcuts.js"
 import { useMillisSinceTruthy } from "./RunArea.js"
 import { cl } from "../common/ClassTable.js"
 
-const long_threshold_seconds = 40
+// const long_threshold_seconds = 40
+const long_threshold_seconds = 120
 const auto_accept_after_seconds = 20
 
 /**
