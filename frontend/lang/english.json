@@ -88,6 +88,7 @@
     "t_package_could_not_load": "<p>The package <strong>{{package}}.jl</strong> could not load because it failed to initialize.</p><p>That's not nice! Things you could try:</p>",
     "t_package_could_not_load_things_you_could_try": "<ul><li>Restart the notebook.</li><li>Try a different Julia version.</li><li>Contact the developers of {{package}}.jl about this error.</li></ul>",
     "t_might_find_info_in_pkg_log": "You might find useful information in the package installation log:",
+    "t_package_not_found_manual_pkg_activate_hint": "- You have manually activated a package environment in this notebook using `Pkg.activate`. Verify that this environment has the packages that you need. Re-run this cell after updating your environment.",
 
     "t_edit_frontmatter": "Edit frontmatter",
     "t_start_presentation": "Start presentation",
