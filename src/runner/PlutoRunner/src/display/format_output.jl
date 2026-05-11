@@ -42,13 +42,16 @@ function formatted_result_of(
 
     output_formatted = if (!ends_with_semicolon || errored)
         with_logger_and_io_to_logs(get_cell_logger(notebook_id, cell_id); capture_stdout) do
-            format_output(ans; context=IOContext(
-            default_iocontext, 
-            :extra_items=>extra_items, 
-            :module => workspace,
-            :pluto_notebook_id => notebook_id,
-            :pluto_cell_id => cell_id,
-        ))
+            context = IOContext(
+                default_iocontext,
+                :extra_items => extra_items,
+                :module => workspace,
+                :pluto_notebook_id => notebook_id,
+                :pluto_cell_id => cell_id,
+            )
+            with_auto_id_counter(context, Symbol(string(hash(cell_id); base=62))) do context_with_auto_id
+                format_output(ans; context = context_with_auto_id)
+            end
         end
     else
         ("", MIME"text/plain"())
