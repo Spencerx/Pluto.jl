@@ -5,7 +5,7 @@ function auto_id!(io::IO)::String
 
     if length(stack) >= 1
         stack[end] += 1
-        join(stack, ",")
+        join(stack, "_")
     else
         # Fallback for when @auto_id is used inside an IO that never received a counter stack:
         string("PlutoRunner-auto-id-fallback", rand(Int64))
