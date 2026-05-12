@@ -47,3 +47,7 @@ export const is_desktop = () => !!window.plutoDesktop
 export const add_block_screen_text_listener = (listener) => {
     window.plutoDesktop?.ipcRenderer.on("set-block-screen-text", listener)
 }
+
+export const is_backend_server_loaded = () => {
+    return window.plutoDesktop?.isBackendLoaded()
+}

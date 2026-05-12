@@ -1,4 +1,5 @@
 import { Promises } from "../common/SetupCellEnvironment.js"
+import { is_backend_server_loaded, is_desktop } from "../components/DesktopInterface.js"
 import { pack, unpack } from "./MsgPack.js"
 import "./Polyfill.js"
 import { Stack } from "./Stack.js"
@@ -444,6 +445,7 @@ export const create_pluto_connection = async ({
             return await connect()
         }
     }
+
     await connect()
 
     return /** @type {PlutoConnection} */ (client)
@@ -455,7 +457,8 @@ const alert_if_not_authenticated = async (/** @type {string | URL} */ ws_url, ex
             const auth_url = auth_check_url_from_ws(ws_url)
             const response = await fetch(auth_url)
             if (response.status === 403 || response.status === 401) {
-                alert("This window has lost authentication to the Pluto server. Please refresh the page to continue.")
+                if (!is_desktop() || (await is_backend_server_loaded()))
+                    alert("This window has lost authentication to the Pluto server. Please refresh the page to continue.")
             }
         }
     }

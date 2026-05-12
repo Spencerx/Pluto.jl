@@ -32,6 +32,7 @@ declare global {
                 on(channel: string, func: (...args: unknown[]) => void): (() => void) | undefined
                 once(channel: string, func: (...args: unknown[]) => void): void
             }
+            isBackendLoaded(): Promise<boolean>
             fileSystem: {
                 /**
                  * @param type [default = 'new'] whether you want to open a new notebook
