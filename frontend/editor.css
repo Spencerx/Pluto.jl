@@ -4331,6 +4331,8 @@ pluto-cell.hooked_up > pluto-output {
 .pluto-project_toml .cm-editor {
     font-family: var(--julia-mono-font-stack);
     margin-block-end: 2rem;
+    border: 2px solid;
+    border-radius: 0.3em;
 }
 
 /*  Styles for markdown copy Button*/

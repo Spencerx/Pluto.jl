@@ -152,10 +152,10 @@ Create a new JSON file for your language. Put in the following:
 
 ```json
 {
-    "t_language_name": "Ελληνικά",
+    "t_language_name": "Ελληνικά"
 }
 ```
 
-and replace `Ελληνικά` with the name of your language (written in your language, not English).
+and replace `Ελληνικά` with the name of your language (written in your language, not in English).
 
 Now run `julia update_languages.jl` to fill in the rest of the file with empty strings. Now you can start working on the file!
