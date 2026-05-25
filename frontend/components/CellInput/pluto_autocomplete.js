@@ -5,10 +5,10 @@ import { get_selected_doc_from_state } from "./LiveDocsFromCursor.js"
 import { cl } from "../../common/ClassTable.js"
 import { ScopeStateField } from "./scopestate_statefield.js"
 import { open_bottom_right_panel } from "../BottomRightPanel.js"
-import { ENABLE_CM_AUTOCOMPLETE_ON_TYPE } from "../CellInput.js"
 import { GlobalDefinitionsFacet } from "./go_to_definition_plugin.js"
 import { STRING_NODE_NAMES } from "./mixedParsers.js"
 import { sub_charmap, sup_charmap } from "../../common/UnicodeTools.js"
+import { get_settings } from "../Settings.js"
 
 let { autocompletion, completionKeymap, completionStatus, acceptCompletion, selectedCompletion } = autocomplete
 
@@ -54,7 +54,7 @@ let open_docs_if_autocomplete_is_open_command = (cm) => {
 }
 
 const pluto_autocomplete_keymap = [
-    { key: "Tab", run: tab_completion_command },
+    ...(get_settings().CM_TAB_KEY_FOR_INDENT ? [{ key: "Tab", run: tab_completion_command }] : []),
     { key: "?", run: open_docs_if_autocomplete_is_open_command },
 ]
 
@@ -722,7 +722,7 @@ export let pluto_autocomplete = ({
 
     return [
         autocompletion({
-            activateOnTyping: ENABLE_CM_AUTOCOMPLETE_ON_TYPE,
+            activateOnTyping: get_settings().CM_AUTOCOMPLETE_ON_TYPE,
             override: [
                 global_variables_completion(request_unsubmitted_global_definitions, cell_id),
                 special_symbols_completion(get_special_symbols_debounced),

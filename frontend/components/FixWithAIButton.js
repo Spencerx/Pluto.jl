@@ -4,6 +4,7 @@ import { cl } from "../common/ClassTable.js"
 import { open_pluto_popup } from "../common/open_pluto_popup.js"
 import { start_ai_suggestion } from "./CellInput/ai_suggestion.js"
 import { t } from "../common/lang.js"
+import { get_settings } from "./Settings.js"
 
 const ai_server_url = "https://pluto-simple-llm-features.plutojl.deno.net/"
 const endpoint_url = `${ai_server_url}fix-syntax-error-v1`
@@ -73,6 +74,7 @@ const AIPermissionPrompt = ({ onAccept, onDecline }) => {
 
 export const FixWithAIButton = ({ cell_id, diagnostics, last_run_timestamp }) => {
     const pluto_actions = useContext(PlutoActionsContext)
+    if (!get_settings().AI_EDITOR_FEATURES) return null
     if (pluto_actions.get_session_options?.()?.server?.enable_ai_editor_features === false) return null
 
     const node_ref = useRef(/** @type {HTMLElement?} */ (null))
@@ -156,12 +158,15 @@ export const FixWithAIButton = ({ cell_id, diagnostics, last_run_timestamp }) =>
                 throw new Error(error.error || "unkown error")
             }
 
-            const { fixed_code } = await response.json()
+            let { fixed_code } = await response.json()
 
             console.debug("fixed_code", fixed_code)
 
             // Update the cell's local code without running it
             if (fixed_code.trim() == "missing") throw new Error("refused")
+            if (fixed_code.trim() == "markdown") {
+                fixed_code = `md"""\n${code}\n"""`
+            }
             await start_ai_suggestion(node_ref.current, { code: fixed_code })
             setButtonState("success")
         } catch (error) {

@@ -47,9 +47,8 @@ import { SafePreviewUI } from "./SafePreviewUI.js"
 import { open_pluto_popup } from "../common/open_pluto_popup.js"
 import { get_included_external_source } from "../common/external_source.js"
 import { ProjectTomlEditor } from "./ProjectTomlEditor.js"
-import { LanguagePicker } from "./LanguagePicker.js"
 import { getCurrentLanguage, getWritingDirection, t, th } from "../common/lang.js"
-import { PlutoLandUpload } from "./PlutoLandUpload.js"
+import { InlineIonicon, PlutoLandUpload } from "./PlutoLandUpload.js"
 import { BigPkgTerminal } from "./PkgTerminalView.js"
 import { is_desktop, move_notebook, wait_for_file_move } from "./DesktopInterface.js"
 import { with_query_params } from "../common/URLTools.js"
@@ -57,6 +56,7 @@ import semver from "../imports/semver-es.js"
 import { ConfirmBeforeLongRuntime, maybe_abort_long_runtime } from "./ConfirmBeforeLongRuntime.js"
 import { detect_indent_unit } from "./CellInput/detect_indent_unit.js"
 import { Text } from "../imports/CodemirrorPlutoSetup.js"
+import { get_settings, Settings } from "./Settings.js"
 
 // This is imported asynchronously - uncomment for development
 // import environment from "../common/Environment.js"
@@ -504,7 +504,7 @@ export class Editor extends Component {
             wrap_remote_cell: async (cell_id, block_start = "begin", block_end = "end") => {
                 const cell = this.state.notebook.cell_inputs[cell_id]
                 if (!cell) return
-                const unit = detect_indent_unit(Text.of(cell.code.split("\n")), "\t")
+                const unit = detect_indent_unit(Text.of(cell.code.split("\n")), get_settings().CM_INDENT_UNIT === "tab" ? "\t" : "    ")
                 const new_code = `${block_start}\n${unit}${cell.code.replace(/\n/g, `\n${unit}`)}\n${block_end}`
 
                 await this.setStatePromise(
@@ -966,7 +966,8 @@ all patches: ${JSON.stringify(patches, null, 1)}
                         <a href="./">Go back</a>
                         <br />
                         <a
-                            href="#"
+                            href="javascript:;"
+                            target="_self"
                             onClick=${(e) => {
                                 e.preventDefault()
                                 window.dispatchEvent(new CustomEvent("close pluto popup"))
@@ -1783,6 +1784,7 @@ ${t("t_key_autosave_description")}`
                     <${BigPkgTerminal}
                         notebook=${notebook}
                     />
+                    <${Settings} />
                     ${this.props.preamble_element}
                     <${Main}>
                         <${Preamble}
@@ -1843,10 +1845,6 @@ ${t("t_key_autosave_description")}`
                         notebook=${this.state.notebook}
                         sanitize_html=${status.sanitize_html}
                     />
-                    <${Popup} 
-                        notebook=${this.state.notebook}
-                        disable_input=${this.state.disable_ui || !this.state.connected /* && this.state.backend_launch_phase == null*/}
-                    />
                     <${RecentlyDisabledInfo} 
                         recently_auto_disabled_cells=${this.state.recently_auto_disabled_cells}
                         notebook=${this.state.notebook}
@@ -1869,9 +1867,18 @@ ${t("t_key_autosave_description")}`
                     <${SlideControls} />
                     <footer>
                         <div id="info">
-                            <${LanguagePicker} />
-                            <a href="https://plutojl.org/en/docs/" target="_blank">${t("t_FAQ")}</a>
-                            <span style="flex: 1 1 0%; min-width: 5ch;"></span>
+                            <a class="footer-button" href="javascript:;" target="_self" onClick=${() => window.dispatchEvent(new CustomEvent("pluto open settings"))}>${th(
+                                "t_footer_button_settings",
+                                {
+                                    icon: html`${InlineIonicon("settings-outline", { inlineMargin: false })}${InlineIonicon("language-outline", {
+                                        inlineMargin: true,
+                                    })}`,
+                                }
+                            )}</a>
+                            <a class="footer-button" href="https://plutojl.org/en/docs/" target="_blank">${th("t_footer_button_FAQ", {
+                                icon: InlineIonicon("help-circle-outline", { inlineMargin: false }),
+                            })}</a>
+                            <span class="footer-spacer" style="flex: 1 1 0%; min-width: 5ch;"></span>
                             <form id="feedback" action="#" method="post">
                                 <label for="opinion">${th("t_how_can_we_improve", {
                                     pluto: html`<a href="https://plutojl.org/" target="_blank">Pluto.jl</a>`,
@@ -1881,6 +1888,10 @@ ${t("t_key_autosave_description")}`
                             </form>
                         </div>
                     </footer>
+                    <${Popup} 
+                        notebook=${this.state.notebook}
+                        disable_input=${this.state.disable_ui || !this.state.connected /* && this.state.backend_launch_phase == null*/}
+                    />
                 </${PlutoJSInitializingContext.Provider}>
                 </${PlutoBondsContext.Provider}>
             </${PlutoActionsContext.Provider}>

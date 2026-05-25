@@ -50,6 +50,9 @@
     --system-fonts-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
     color-scheme: light dark;
+
+    --custom-code-font-stack: "";
+    --code-font-stack: var(--julia-mono-font-stack); /* Will be overriden later */
 }
 
 /* GENERAL PAGE LAYOUT */
@@ -115,6 +118,8 @@ pluto-editor main {
 pluto-notebook {
     display: block;
     background: var(--main-bg-color);
+
+    --code-font-stack: var(--custom-code-font-stack), var(--julia-mono-font-stack);
 }
 
 /* STANDARD HTML ELEMENTS */
@@ -742,6 +747,15 @@ pluto-editor.static_preview button.toggle_export {
 .ionicon-icon[data-icon="trash-bin-outline"] {
     background-image: url("https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/trash-bin-outline.svg");
 }
+.ionicon-icon[data-icon="settings-outline"] {
+    background-image: url("https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/settings-outline.svg");
+}
+.ionicon-icon[data-icon="help-circle-outline"] {
+    background-image: url("https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/help-circle-outline.svg");
+}
+.ionicon-icon[data-icon="language-outline"] {
+    background-image: url("https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/language-outline.svg");
+}
 .ionicon-icon[data-icon="arrow-up-circle-outline"] {
     background-image: url("https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/arrow-up-circle-outline.svg");
 }
@@ -853,6 +867,76 @@ dialog.export-html-dialog > div.ple-plutoland {
 
 dialog.export-html-dialog > div.final button {
     cursor: pointer;
+}
+
+dialog.psettings {
+    border-radius: 0.7rem;
+    width: min(34rem, 90vw);
+    background: var(--settings-bg-color);
+    color: var(--pluto-output-color);
+}
+dialog.psettings::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 7.1em;
+    background: var(--settings-header-bg-color);
+    z-index: -1;
+}
+
+.psettings label {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    cursor: pointer;
+    padding: 1em 0.7em;
+    border-radius: 0.7rem;
+    align-items: center;
+}
+
+.big-list-of-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.psettings input[type="checkbox"] {
+    font-size: 26px;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+    /* scale: 1.7; */
+}
+
+.psettings label:hover {
+    background: var(--shoulder-hover-bg-color);
+}
+
+.psettings :is(h4, p) {
+    margin: 0;
+}
+
+.psettings :is(h1, h2, h4) {
+    color: var(--pluto-output-h-color);
+}
+
+.psettings h1 {
+    margin-block-start: 1rem;
+    margin-block-end: 0rem;
+    font-size: 3rem;
+}
+.psettings h2 {
+    margin-block-start: 5rem;
+    margin-block-end: 1rem;
+    font-size: 2rem;
+}
+.psettings .description-2 {
+    color: var(--settings-p2-color);
+    margin-top: 0.7em;
 }
 
 dialog.confirm-before-long-runtime {
@@ -3391,15 +3475,17 @@ footer form > a {
 
 footer a {
     color: var(--footer-atag-color);
-    opacity: 0.6;
     font-weight: 700;
     flex: 0 0 auto;
 }
 
-@media (max-width: 500px) {
-    footer form {
-        display: none;
-    }
+footer a.footer-button {
+    text-decoration: none;
+    background: var(--white);
+    padding: 0.4em 0.9em;
+    border-radius: 0.4em;
+    color: var(--pluto-output-color);
+    font-family: var(--system-ui-font-stack);
 }
 
 footer input {
@@ -3443,40 +3529,36 @@ footer #info {
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
+    gap: 1em;
+}
+
+@media (max-width: 500px) {
+    footer form {
+        display: none;
+    }
+    footer #info {
+        justify-content: flex-start;
+    }
+    footer .footer-spacer {
+        display: none;
+    }
 }
 
 /* LANGUAGE PICKER */
 
-.language-picker {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-inline-end: 1rem;
-    font-size: 0.75rem;
-    flex: 0 2 auto;
-}
-
-.language-picker label {
-    color: var(--footer-color);
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-.language-picker select {
+.psettings select {
     background: var(--white);
     border: 2px solid var(--footer-input-border-color);
     border-radius: 3px;
     padding: 2px 4px;
     font-family: inherit;
-    font-size: inherit;
+    font-size: 0.8em;
     color: var(--footer-color);
     cursor: pointer;
-    /* width: 78px; */
-    width: 100%;
     font-family: var(--system-ui-font-stack);
 }
 
-.language-picker select:focus {
+.psettings select:focus {
     outline: 2px solid var(--footer-filepicker-focus-color);
     outline-offset: 1px;
 }
@@ -3902,7 +3984,7 @@ pluto-input .cm-editor .cm-tooltip.cm-tooltip-autocomplete > ul > li {
     float: right;
     margin-right: 0.5em;
     font-size: 0.8em;
-    font-family: var(--julia-mono-font-stack);
+    font-family: var(--code-font-stack);
     font-style: normal;
 }
 
@@ -3989,7 +4071,7 @@ pluto-input .cm-editor .cm-scroller {
 pluto-input .cm-editor .cm-content,
 pluto-input .cm-editor .cm-scroller,
 .cm-editor .cm-tooltip-autocomplete .cm-completionLabel {
-    font-family: var(--julia-mono-font-stack) !important;
+    font-family: var(--code-font-stack) !important;
     font-variant-ligatures: none;
     font-size: 0.8rem;
 }
