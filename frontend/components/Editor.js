@@ -264,6 +264,7 @@ const first_true_key = (obj) => {
  * @typedef NotebookData
  * @type {{
  *  pluto_version?: string,
+ *  julia_version?: string,
  *  notebook_id: string,
  *  path: string,
  *  shortpath: string,
