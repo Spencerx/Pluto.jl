@@ -383,7 +383,7 @@ export const ErrorMessage = ({ msg, stacktrace, plain_error, cell_id }) => {
                                 pluto_actions.split_remote_cell(cell_id, boundaries, true)
                             }}
                             >${t("t_split_this_cell_into_cells", { count: boundaries.length })}</a
-                        >, or
+                        >
                     </p>`
                     return html`<p>${t("t_multiple_expressions_in_one_cell")}</p>
                         <p>${t("t_how_would_you_like_to_fix_it")}</p>
