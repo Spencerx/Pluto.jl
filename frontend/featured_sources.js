@@ -9,8 +9,8 @@ export default {
         },
         {
             id: "featured pluto",
-            url: "https://cdn.jsdelivr.net/gh/JuliaPluto/featured@v5/pluto_export.json",
-            integrity: "sha256-+zI9b/gHEIJGV/DrckBY85hkxNWGIewgYffkAkEq4/w=",
+            url: "https://cdn.jsdelivr.net/gh/JuliaPluto/featured@v6/pluto_export.json",
+            integrity: "sha256-wWpIME7NqdQfspMICXLI6PDM3H+jthqoBhP3uaWnwlM=",
         },
         {
             url: "https://plutojl.org/pluto_export.json",
