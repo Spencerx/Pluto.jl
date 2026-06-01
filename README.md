@@ -118,9 +118,18 @@ https://user-images.githubusercontent.com/6933510/134824521-7cefa38a-7102-4767-b
 _([video](https://www.youtube.com/watch?v=rpB6zQNsbQU)) Grant Sanderson ([3Blue1Brown](https://www.youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw)) using Pluto's interactivity to teach [Computational Thinking at MIT](https://computationalthinking.mit.edu/)!_
 
 <br >
+<br >
+<br >
+<br >
+<br >
+
 <hr >
-<hr >
-<hr >
+
+<br >
+<br >
+<br >
+<br >
+<br >
 <br >
 
 # Let's do it!
@@ -134,7 +143,7 @@ Questions? Have a look at the [FAQ](https://github.com/JuliaPluto/Pluto.jl/wiki)
 <br>
 <br>
 <blockquote>
-<img align="right" src=https://upload.wikimedia.org/wikipedia/commons/0/0c/MIT_logo.svg height="60px">
+<img align="right" alt="MIT logo" src="https://user-images.githubusercontent.com/6933510/103308960-09412e00-4a14-11eb-8a3a-39201a9c186d.png" height="60px">
 <p><em>Interested in learning Julia, Pluto and applied mathematics?</em> Join the <strong>open MIT course</strong> taught by <strong>Alan Edelman</strong>, <strong>David P. Sanders</strong> &amp; Grant Sanderson (<strong>3blue1brown</strong>) (<em>and a bit of me</em>): <a href="https://computationalthinking.mit.edu" rel="nofollow">Introduction to Computational Thinking</a>, Spring 2021.
 <br></p>
 </blockquote>
