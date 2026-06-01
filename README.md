@@ -187,7 +187,8 @@ The Pluto project is an ambition to [_rethink what a programming environment sho
 -   use Pluto's **[built-in feedback system:](https://github.com/JuliaPluto/Pluto.jl/issues/182#issue-637726414)**
 -   contact fons **[via email](mailto:fons@plutojl.org)**
 
-<img alt="feedback screencap" src="https://user-images.githubusercontent.com/6933510/84502876-6f08db00-acb9-11ea-84c3-f5daaba29273.png" width="100%">
+<img width="843" height="193" alt="Screenshot of the bottom part of a Pluto notebook showing the instant feedback form. Label: What do you think about Pluto?" src="https://github.com/user-attachments/assets/1c4a6c30-356f-4514-b059-b691913d2086" />
+
 
 Questions? Have a look at the [FAQ](https://github.com/JuliaPluto/Pluto.jl/wiki).
 
