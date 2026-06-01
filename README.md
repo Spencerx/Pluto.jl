@@ -57,6 +57,10 @@ Your notebooks are **saved as pure Julia files** ([sample](https://github.com/Ju
 <p align="center"><a href="https://www.youtube.com/watch?v=Rg3r3gG4nQo">🪐 Pluto – reactive and reproducible (25 min) at <b>JupyterCon 2023</b> 🪐</a></p>
 
 <br>
+<p align="center"><a href="https://discourse.julialang.org/t/pluto-1-0-release/137296">🌝 Pluto 1.0 release announcement (10 min read) on <b>Discourse 2026</b> 🪐</a></p>
+
+<br>
+
 
 
 ## Dynamic environment
