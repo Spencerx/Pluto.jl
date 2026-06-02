@@ -180,7 +180,7 @@
     "t_export_safe_preview_warning": "Dieses Notebook ist immer noch im sicheren Vorschau-Modus und Zellen werden nicht ausgeführt. Wahrscheinlich möchtest du das Notebook vorher ausführen. Bist du dir sicher, dass du es exportieren willst?",
     "t_instant_feedback_ellipsis": "Direktes Feedback...",
     "t_instant_feedback_send": "Senden",
-    "t_how_can_we_improve": "🙋 Wie können wir {{pluto}} verbessern?",
+    "t_feedback_about_pluto": "🙋 Was denkst du über {{pluto}}?",
     "t_footer_button_settings": "{{icon}} Einstellungen",
     "t_footer_button_FAQ": "{{icon}} FAQ",
 

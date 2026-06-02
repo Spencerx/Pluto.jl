@@ -180,7 +180,7 @@
     "t_export_safe_preview_warning": "Denne notebooken er fortsatt i Sikker forhåndsvisning, og celler kjøres ikke. Du ønsker kanskje å kjøre notebooken først. Er du sikker på at du vil eksportere den?",
     "t_instant_feedback_ellipsis": "Øyeblikkelig tilbakemelding...",
     "t_instant_feedback_send": "Send",
-    "t_how_can_we_improve": "🙋 Hvordan kan vi gjøre {{pluto}} bedre?",
+    "t_feedback_about_pluto": "🙋 Hva synes du om {{pluto}}?",
     "t_footer_button_settings": "{{icon}} Innstillinger",
     "t_footer_button_FAQ": "{{icon}} FAQ",
 
